@@ -15,7 +15,7 @@ function Request() {
 function postTask(content, successCB, errorCB) {
   var newRequest = new Request();
   newRequest['type'] = 'POST';
-  newRequest['url'] = 'api/v1/tasks';
+  newRequest['url'] = 'tasks';
   newRequest['xhrFields'] = { 'withCredentials': true };
   newRequest['data'] = {
     'task': {
@@ -37,7 +37,7 @@ function postTask(content, successCB, errorCB) {
 function getAllTasks(successCB, errorCB) {
   var newRequest = new Request();
   newRequest['type'] = 'GET';
-  newRequest['url'] = 'api/v1/tasks';
+  newRequest['url'] = 'tasks';
   newRequest['success'] = function(response){
     return successCB(response);
   };
@@ -53,9 +53,11 @@ function getAllTasks(successCB, errorCB) {
 function deleteOneTask(id, successCB, errorCB) {
   var newRequest = new Request();
   newRequest['type'] = 'DELETE';
-  newRequest['url'] = 'api/v1/tasks/' + id;
+  newRequest['url'] = 'tasks/' + id;
   newRequest['xhrFields'] = { 'withCredentials': true };
   newRequest['success'] = function(response){
+    console.log(response)
+
     return successCB(response);
   };
   newRequest['error'] = function(request, errorMsg){
@@ -70,7 +72,7 @@ function deleteOneTask(id, successCB, errorCB) {
 function markTaskAsComplete(id, successCB, errorCB) {
   var newRequest = new Request();
   newRequest['type'] = 'PUT';
-  newRequest['url'] = 'api/v1/tasks/' + id + '/mark_complete';
+  newRequest['url'] = 'tasks/' + id + '/mark_complete';
   newRequest['xhrFields'] = { 'withCredentials': true };
   newRequest['success'] = function(response){
     return successCB(response);
@@ -87,7 +89,7 @@ function markTaskAsComplete(id, successCB, errorCB) {
 function markTaskAsActive(id, successCB, errorCB) {
   var newRequest = new Request();
   newRequest['type'] = 'PUT';
-  newRequest['url'] = 'api/v1/tasks/' + id + '/mark_active';
+  newRequest['url'] = 'tasks/' + id + '/mark_active';
   newRequest['xhrFields'] = { 'withCredentials': true };
   newRequest['success'] = function(response){
     return successCB(response);

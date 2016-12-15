@@ -81,7 +81,7 @@ $(".homepage.index").ready(function(){
 
   var refreshTasks = function() {
     getAllTasks(function(response) {
-      taskList = response;
+      taskList = response.tasks;
       filterTasks();
       updateHelperButtons();
     }, function(request, errorMsg) {
@@ -180,13 +180,11 @@ $(".homepage.index").ready(function(){
     if (key == 13) {
       if (taskList.length < 10 && taskInput.val() !== '') {
         postTask(taskInput.val(), function(response) {
-          if(response.success) {
-            taskInput.val('');
-            taskList.push(response.task);
-            updateHelperButtons();
-            if (filter !== 'Completed') {
-              addTask(response.task.content, response.task.id, response.task.completed);
-            }
+          taskInput.val('');
+          taskList.push(response.task);
+          updateHelperButtons();
+          if (filter !== 'Completed') {
+            addTask(response.task.content, response.task.id, response.task.completed);
           }
         }, function(request, errorMsg) {
           console.error(errorMsg);

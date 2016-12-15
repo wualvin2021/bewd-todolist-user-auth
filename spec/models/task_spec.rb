@@ -13,9 +13,9 @@ RSpec.describe Task, type: :model do
   end
 
   describe 'attributes' do
-    it "should include 'content'" do
-      skip if not $level[:task_new]
+    skip if not $level[:task_new]
 
+    it "should include 'content'" do
       task = Task.new
 
       expect {
@@ -24,8 +24,6 @@ RSpec.describe Task, type: :model do
     end
 
     it "should include 'completed'" do
-      skip if not $level[:task_new]
-
       task = Task.new
 
       expect {
@@ -37,17 +35,15 @@ RSpec.describe Task, type: :model do
   end
 
   describe '.create' do
-    it "requires the presence of 'content'" do
-      skip if not $level[:task_attributes]
+    skip if not $level[:task_attributes]
 
+    it "requires the presence of 'content'" do
       expect {
         Task.create!(content: nil)
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it "'content' should have max 200 chars" do
-      skip if not $level[:task_attributes]
-
       task = Task.new
 
       expect {
