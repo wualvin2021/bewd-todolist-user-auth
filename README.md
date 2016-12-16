@@ -1,4 +1,4 @@
-# To Do List Project
+# User Authentication Project
 
 After downloading the repository
 Install the gems
@@ -19,11 +19,4 @@ Start server:
 rails s
 ```
 
-Visit localhost:3000 to see the homepage
-# Twitter Project
-
-To start server:
-
-```
-rails s
-```
+Visit localhost:3000
