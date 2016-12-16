@@ -22,6 +22,22 @@ class TasksController < ApplicationController
     end
   end
 
+  def mark_complete
+    @task = Task.find_by(id: params[:id])
+
+    if @task and @task.update(completed: true)
+      render 'tasks/update'
+    end
+  end
+
+  def mark_active
+    @task = Task.find_by(id: params[:id])
+
+    if @task and @task.update(completed: false)
+      render 'tasks/update'
+    end
+  end
+
   private
 
     def task_params

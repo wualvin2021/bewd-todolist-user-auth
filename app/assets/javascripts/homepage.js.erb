@@ -19,7 +19,7 @@ $(".homepage.index").ready(function(){
       var completedClass = taskDiv.getAttribute('class');
       if (completedClass === 'task completed') {
         markTaskAsActive(id, function(response) {
-          if (response.success) {
+          if (response) {
             taskDiv.removeAttribute('class');
             taskList = taskList.map(function(task) {
               if (task.id === response.task.id) {
@@ -35,7 +35,7 @@ $(".homepage.index").ready(function(){
         })
       } else {
         markTaskAsComplete(id, function(response) {
-          if (response.success) {
+          if (response) {
             taskDiv.setAttribute('class','completed');
             taskList = taskList.map(function(task) {
               if (task.id === response.task.id) {
