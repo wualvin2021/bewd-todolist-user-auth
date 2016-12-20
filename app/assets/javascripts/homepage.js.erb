@@ -7,6 +7,8 @@ $(".homepage.index").ready(function(){
       if(response.authenticated) {
         refreshTasks();
         toggleLoginLogoutButton();
+      } else {
+        refreshTasks();
       }
     }, function(errorMsg) {
       console.log(errorMsg);
@@ -21,9 +23,8 @@ $(".homepage.index").ready(function(){
       e.preventDefault();
     }
     var usernameInput = $('#sign-up-form .username').val();
-    var emailInput = $('#sign-up-form .email').val();
     var passwordInput = $('#sign-up-form .password').val();
-    createUser(usernameInput, emailInput, passwordInput, function(){
+    createUser(usernameInput, passwordInput, function(){
       signInUser(usernameInput, passwordInput, function(){
         authenticateAndRefresh();
       });

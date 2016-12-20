@@ -13,14 +13,14 @@ function Request() {
 
 //------------------ Create User --------------------
 
-function createUser(username, email, password, callback) {
+function createUser(username, password, callback) {
   var newRequest = new Request();
   newRequest['type'] = 'POST';
   newRequest['url'] = 'users';
+  newRequest['xhrFields'] = { 'withCredentials': true };
   newRequest['data'] = {
     'user': {
       'username': username,
-      'email': email,
       'password': password
     }
   };
