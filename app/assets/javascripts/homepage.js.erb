@@ -1,5 +1,88 @@
 $(".homepage.index").ready(function(){
 
+  //------------------ authenticate ---------------------
+
+  function authenticateAndRefresh() {
+    authenticate(function(response) {
+      if(response.authenticated) {
+        refreshTasks();
+        toggleLoginLogoutButton();
+      }
+    }, function(errorMsg) {
+      console.log(errorMsg);
+      refreshTasks();
+    });
+  };
+
+  //------------------- Sign up / Log in / Log out Buttons ---------------------
+
+  $(document).on('click', '#sign-up-btn', function(e){
+    if (e) {
+      e.preventDefault();
+    }
+    var usernameInput = $('#sign-up-form .username').val();
+    var emailInput = $('#sign-up-form .email').val();
+    var passwordInput = $('#sign-up-form .password').val();
+    createUser(usernameInput, emailInput, passwordInput, function(){
+      signInUser(usernameInput, passwordInput, function(){
+        authenticateAndRefresh();
+      });
+    });
+  });
+
+  $(document).on('click', '#log-in-btn', function(e){
+    if (e) {
+      e.preventDefault();
+    }
+    var usernameInput = $('#log-in-form .username').val();
+    var passwordInput = $('#log-in-form .password').val();
+    signInUser(usernameInput, passwordInput, function(){
+      authenticateAndRefresh();
+    });
+  });
+
+  $(document).on('click', '#log-out-btn', function() {
+    logoutUser(function(){
+      authenticate(function(response) {
+        if(!response.authenticated) {
+          refreshTasks();
+          toggleLoginLogoutButton();
+        }
+      });
+    });
+  });
+
+  var toggleLoginLogoutButton = function() {
+    $('#open-login-signup-modal-btn').toggle();
+    $('#log-out-btn').toggle();
+  }
+
+  //------------------- Sign up / Log in Toggle ---------------------
+
+  $(document).on('click', '#toggle-signup-form', function(e) {
+    if (e) {
+      e.preventDefault();
+    }
+    $('#log-in-form').hide();
+    $('#toggle-signup-form').hide();
+    $('#log-in-btn').hide();
+    $('#sign-up-form').show();
+    $('#toggle-login-form').show();
+    $('#sign-up-btn').show();
+  });
+
+  $(document).on('click', '#toggle-login-form', function(e) {
+    if (e) {
+      e.preventDefault();
+    }
+    $('#log-in-form').show();
+    $('#toggle-signup-form').show();
+    $('#log-in-btn').show();
+    $('#sign-up-form').hide();
+    $('#toggle-login-form').hide();
+    $('#sign-up-btn').hide();
+  });
+
   //------------------- To do list ---------------------
   var taskInput = $('#task-input');
   var todoList = $('#todo-list');
@@ -193,8 +276,12 @@ $(".homepage.index").ready(function(){
     }
   });
 
-  refreshTasks();
-
+  $('#sign-up-form').hide();
+  $('#toggle-login-form').hide();
+  $('#sign-up-btn').hide();
+  $('#log-out-btn').hide();
   $('#' + filter).addClass('selected');
+
+  authenticateAndRefresh();
 
 });
