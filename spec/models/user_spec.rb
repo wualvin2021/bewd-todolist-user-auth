@@ -7,6 +7,11 @@ RSpec.describe User, type: :model do
       expect(user.sessions).to eq([])
     end
 
+    it 'should have many tasks' do
+      user = FactoryGirl.create(:user)
+      expect(user.tasks).to eq([])
+    end
+
     it 'must have the presence of username' do
       expect {
         FactoryGirl.create(:user, username: nil)

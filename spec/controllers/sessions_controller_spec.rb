@@ -24,7 +24,7 @@ RSpec.describe SessionsController, type: :controller do
     it 'renders authenticated user object' do
       user = FactoryGirl.create(:user)
       session = user.sessions.create
-      @request.cookie_jar.signed['twitter_session_token'] = session.token
+      @request.cookie_jar.signed['todolist_session_token'] = session.token
 
       get :authenticated
 
@@ -39,7 +39,7 @@ RSpec.describe SessionsController, type: :controller do
     it 'renders success' do
       user = FactoryGirl.create(:user)
       session = user.sessions.create
-      @request.cookie_jar.signed['twitter_session_token'] = session.token
+      @request.cookie_jar.signed['todolist_session_token'] = session.token
 
       delete :destroy
 

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete '/tasks/:id'                => 'tasks#destroy'
   put    '/tasks/:id/mark_complete'  => 'tasks#mark_complete'
   put    '/tasks/:id/mark_active'    => 'tasks#mark_active'
+  get    '/my_tasks'                 => 'tasks#index_by_current_user'
 
   # USERS
   post   '/users'                    => 'users#create'

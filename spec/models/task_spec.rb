@@ -6,7 +6,10 @@ RSpec.describe Task, type: :model do
       expect {
         Task.new
       }.not_to raise_error
+    end
 
+    it 'belongs to a user' do
+      expect(Task.new.user).to be_nil
     end
   end
 

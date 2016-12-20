@@ -4,11 +4,33 @@ class TasksController < ApplicationController
     render 'tasks/index' # can be omitted
   end
 
-  def create
-    @task = Task.new(task_params)
+  def index_by_current_user
+    token = cookies.signed[:todolist_session_token]
+    session = Session.find_by(token: token)
 
-    if @task.save
-      render 'tasks/create' # can be omitted
+    if session
+      @tasks = session.user.tasks
+      render 'tasks/index' # can be omitted
+    else
+      render json: { tasks: [] }
+    end
+  end
+
+  def create
+    token = cookies.signed[:todolist_session_token]
+    session = Session.find_by(token: token)
+
+    if session
+      user = session.user
+      @task = user.tasks.new(task_params)
+
+      if @task.save
+        render 'tasks/create' # can be omitted
+      else
+        render json: { success: false }
+      end
+    else
+      render json: { success: false }
     end
   end
 
