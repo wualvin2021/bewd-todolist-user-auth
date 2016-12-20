@@ -24,10 +24,15 @@ $(".homepage.index").ready(function(){
     }
     var usernameInput = $('#sign-up-form .username').val();
     var passwordInput = $('#sign-up-form .password').val();
-    createUser(usernameInput, passwordInput, function(){
-      signInUser(usernameInput, passwordInput, function(){
-        authenticateAndRefresh();
-      });
+    createUser(usernameInput, passwordInput, function(response){
+      if (response.user) {
+        signInUser(usernameInput, passwordInput, function(response){
+          if (response.success) {
+            $('.login-signup-modal').modal('hide')
+            authenticateAndRefresh();
+          }
+        });
+      }
     });
   });
 
@@ -35,10 +40,16 @@ $(".homepage.index").ready(function(){
     if (e) {
       e.preventDefault();
     }
+    $('#login-error').hide();
     var usernameInput = $('#log-in-form .username').val();
     var passwordInput = $('#log-in-form .password').val();
-    signInUser(usernameInput, passwordInput, function(){
-      authenticateAndRefresh();
+    signInUser(usernameInput, passwordInput, function(response){
+      if (response.success) {
+        $('.login-signup-modal').modal('hide')
+        authenticateAndRefresh();
+      } else {
+        $('#login-error').show();
+      }
     });
   });
 
@@ -281,6 +292,7 @@ $(".homepage.index").ready(function(){
   $('#toggle-login-form').hide();
   $('#sign-up-btn').hide();
   $('#log-out-btn').hide();
+  $('#login-error').hide();
   $('#' + filter).addClass('selected');
 
   authenticateAndRefresh();

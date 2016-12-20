@@ -25,11 +25,9 @@ function createUser(username, password, callback) {
     }
   };
   newRequest['success'] = function(response){
-    console.log(response);
-    return callback();
-  };
 
-  console.log(newRequest);
+    return callback(response);
+  };
 
   $.ajax(newRequest);
 };
@@ -48,11 +46,9 @@ function signInUser(username, password, callback) {
     }
   };
   newRequest['success'] = function(response){
-    console.log(response);
-    return callback();
-  };
 
-  console.log(newRequest);
+    return callback(response);
+  };
 
   $.ajax(newRequest);
 };
@@ -66,7 +62,7 @@ function logoutUser(callback) {
   newRequest['xhrFields'] = { 'withCredentials': true };
   newRequest['success'] = function(response){
     console.log(response);
-    return callback();
+    return callback(response);
   };
 
   $.ajax(newRequest);
