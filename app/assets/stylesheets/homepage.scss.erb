@@ -13,7 +13,7 @@ body {
   position: relative;
 }
 
-.form-control {
+#todo-list-wrapper .form-control {
   border: none !important;
   border-radius: 0 !important;
   outline: none !important;
@@ -142,6 +142,18 @@ body {
 @keyframes fadeIn {
   to {
     opacity: 1;
+  }
+}
+
+#open-login-signup-modal-btn, #log-out-btn {
+  border: none;
+  background: none;
+  font-size: 15px;
+  font-weight: 300;
+  outline: none;
+  box-shadow: none;
+  &:hover {
+    text-decoration: underline;
   }
 }
 

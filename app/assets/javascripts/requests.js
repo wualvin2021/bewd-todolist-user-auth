@@ -9,6 +9,87 @@ function Request() {
   }
 };
 
+//---------------------- Users -----------------------
+
+//------------------ Create User --------------------
+
+function createUser(username, email, password, callback) {
+  var newRequest = new Request();
+  newRequest['type'] = 'POST';
+  newRequest['url'] = 'users';
+  newRequest['data'] = {
+    'user': {
+      'username': username,
+      'email': email,
+      'password': password
+    }
+  };
+  newRequest['success'] = function(response){
+    console.log(response);
+    return callback();
+  };
+
+  console.log(newRequest);
+
+  $.ajax(newRequest);
+};
+
+//------------------ Signing In -----------------------
+
+function signInUser(username, password, callback) {
+  var newRequest = new Request();
+  newRequest['type'] = 'POST';
+  newRequest['url'] = 'sessions';
+  newRequest['xhrFields'] = { 'withCredentials': true };
+  newRequest['data'] = {
+    'user': {
+      'username': username,
+      'password': password
+    }
+  };
+  newRequest['success'] = function(response){
+    console.log(response);
+    return callback();
+  };
+
+  console.log(newRequest);
+
+  $.ajax(newRequest);
+};
+
+//------------------- Logging Out ---------------------
+
+function logoutUser(callback) {
+  var newRequest = new Request();
+  newRequest['type'] = 'DELETE';
+  newRequest['url'] = 'sessions';
+  newRequest['xhrFields'] = { 'withCredentials': true };
+  newRequest['success'] = function(response){
+    console.log(response);
+    return callback();
+  };
+
+  $.ajax(newRequest);
+}
+
+//------------------ Authenticate ---------------------
+
+function authenticate(successCB,errorCB) {
+  var newRequest = new Request();
+  newRequest['type'] = 'GET';
+  newRequest['url'] = 'authenticated';
+  newRequest['xhrFields'] = { 'withCredentials': true };
+  newRequest['success'] = function(response){
+    console.log(response);
+    return successCB(response);
+  };
+  newRequest['error'] = function(request, errorMessage) {
+    return errorCB(errorMessage);
+  }
+
+  $.ajax(newRequest);
+};
+
 //---------------------- Tasks -----------------------
 
 //------------------- Create a Task --------------------
