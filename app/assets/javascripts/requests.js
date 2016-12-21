@@ -125,6 +125,22 @@ function getAllTasks(successCB, errorCB) {
   $.ajax(newRequest);
 };
 
+//------------------- Get all Tasks ------------------
+
+function getAllUserTasks(successCB, errorCB) {
+  var newRequest = new Request();
+  newRequest['type'] = 'GET';
+  newRequest['url'] = 'my_tasks';
+  newRequest['success'] = function(response){
+    return successCB(response);
+  };
+  newRequest['error'] = function(request, errorMsg){
+    return errorCB(request, errorMsg);
+  };
+
+  $.ajax(newRequest);
+};
+
 //---------------- Delete a Task by ID ----------------
 
 function deleteOneTask(id, successCB, errorCB) {
