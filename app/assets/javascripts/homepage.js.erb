@@ -5,14 +5,17 @@ $(".homepage.index").ready(function(){
   function authenticateAndRefresh() {
     authenticate(function(response) {
       if(response.authenticated) {
-        refreshTasks();
+        refreshTasks(true);
         toggleLoginLogoutButton();
+        $("#task-input").prop('disabled', false);
       } else {
-        refreshTasks();
+        refreshTasks(false);
+        $("#task-input").prop('disabled', true);
       }
     }, function(errorMsg) {
       console.log(errorMsg);
-      refreshTasks();
+      refreshTasks(false);
+      $("#task-input").prop('disabled', true);
     });
   };
 
@@ -57,7 +60,8 @@ $(".homepage.index").ready(function(){
     logoutUser(function(){
       authenticate(function(response) {
         if(!response.authenticated) {
-          refreshTasks();
+          refreshTasks(false);
+          $("#task-input").prop('disabled', true);
           toggleLoginLogoutButton();
         }
       });
@@ -114,7 +118,7 @@ $(".homepage.index").ready(function(){
       var completedClass = taskDiv.getAttribute('class');
       if (completedClass === 'task completed') {
         markTaskAsActive(id, function(response) {
-          if (response) {
+          if (response.task) {
             taskDiv.removeAttribute('class');
             taskList = taskList.map(function(task) {
               if (task.id === response.task.id) {
@@ -130,7 +134,7 @@ $(".homepage.index").ready(function(){
         })
       } else {
         markTaskAsComplete(id, function(response) {
-          if (response) {
+          if (response.task) {
             taskDiv.setAttribute('class','completed');
             taskList = taskList.map(function(task) {
               if (task.id === response.task.id) {
@@ -174,14 +178,20 @@ $(".homepage.index").ready(function(){
     todoList.append(taskDiv);
   };
 
-  var refreshTasks = function() {
-    getAllTasks(function(response) {
-      taskList = response.tasks;
+  var refreshTasks = function(isLoggedIn) {
+    if (isLoggedIn) {
+      getAllUserTasks(function(response) {
+        taskList = response.tasks;
+        filterTasks();
+        updateHelperButtons();
+      }, function(request, errorMsg) {
+        console.error(errorMsg);
+      })
+    } else {
+      taskList = [];
       filterTasks();
       updateHelperButtons();
-    }, function(request, errorMsg) {
-      console.error(errorMsg);
-    })
+    }
   };
 
   var filterTasks = function(addTasksToDOM) {
@@ -275,11 +285,15 @@ $(".homepage.index").ready(function(){
     if (key == 13) {
       if (taskList.length < 10 && taskInput.val() !== '') {
         postTask(taskInput.val(), function(response) {
-          taskInput.val('');
-          taskList.push(response.task);
-          updateHelperButtons();
-          if (filter !== 'Completed') {
-            addTask(response.task.content, response.task.id, response.task.completed);
+          if (response.task) {
+            taskInput.val('');
+            taskList.push(response.task);
+            updateHelperButtons();
+            if (filter !== 'Completed') {
+              addTask(response.task.content, response.task.id, response.task.completed);
+            }
+          } else {
+            console.log('Not logged in, cannot create new task.')
           }
         }, function(request, errorMsg) {
           console.error(errorMsg);
