@@ -1,22 +1,3 @@
-# User Authentication Project
+# ToDo List with User Authentication
 
-After downloading the repository
-Install the gems
-
-```
-bundle
-```
-
-Create the database
-
-```
-rake db:create
-```
-
-Start server:
-
-```
-rails s
-```
-
-Visit localhost:3000
+Visit [Altcademy Classroom](https://www.altcademy.com/classroom/) for more instructions.
