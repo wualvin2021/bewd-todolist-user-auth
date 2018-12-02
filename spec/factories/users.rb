@@ -1,6 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
-    username 'testtest'
-    password 'testtest'
+    username {'testtest'}
+    password {'testtest'}
   end
 end

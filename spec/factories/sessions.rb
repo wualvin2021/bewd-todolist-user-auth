@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :session do
-    user "MyString"
+    user {"MyString"}
   end
 end
