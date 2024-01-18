@@ -13,16 +13,22 @@
 ActiveRecord::Schema.define(version: 2024_01_17_194433) do
 
   create_table "sessions", force: :cascade do |t|
+    t.integer "user_id"
     t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "content"
     t.boolean "completed", default: false
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -32,4 +38,6 @@ ActiveRecord::Schema.define(version: 2024_01_17_194433) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "sessions", "users"
+  add_foreign_key "tasks", "users"
 end
