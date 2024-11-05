@@ -13,10 +13,11 @@
 ActiveRecord::Schema.define(version: 2024_10_30_121029) do
 
   create_table "sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id"
     t.string "token"
+    t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -32,9 +33,10 @@ ActiveRecord::Schema.define(version: 2024_10_30_121029) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest"
+    t.string "password"
     t.string "username"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "sessions", "users"
 end
