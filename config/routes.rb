@@ -15,11 +15,15 @@ Rails.application.routes.draw do
 
   # USERS
   post   '/users'                    => 'users#create'
+  post '/users' => 'users#create'
 
   # SESSIONS
   post   '/sessions'                 => 'sessions#create'
   get    '/authenticated'            => 'sessions#authenticated'
   delete '/sessions'                 => 'sessions#destroy'
+  post '/sessions' => 'sessions#create'
+  get '/authenticated' => 'sessions#authenticated'
+  delete '/sessions' => 'sessions#destroy'
 
   # Add routes below above line
 
